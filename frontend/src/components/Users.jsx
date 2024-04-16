@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import User from "./User";
+import axios from "axios";
 
 const Users = () => {
-  const [users, setUsers] = useState([
-    {
-      firstName: "Raj",
-      lastName: "Thombare",
-      _id: 1,
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
+  const getUsers = async () => {
+    const response = await axios(
+      `http://localhost:3000/api/v1/user/bulk?filter=${searchText}`,
+    );
+    setUsers(response.data.user);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, [searchText]);
 
   return (
     <>
@@ -18,6 +25,7 @@ const Users = () => {
           type='text'
           placeholder='Search users...'
           className='w-full px-2 py-1 border rounded border-slate-200'
+          onChange={(e) => setSearchText(e.target.value)}
         ></input>
       </div>
       <div>

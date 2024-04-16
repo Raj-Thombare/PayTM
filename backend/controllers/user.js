@@ -135,22 +135,22 @@ export const updateUser = async (req, res) => {
 export const searchUser = async (req, res) => {
   const filter = req.query.filter || "";
 
-  const users = await User.find({
-    $or: [
-      {
-        firstName: {
-          ["$regex"]: filter,
-          ["$options"]: "i",
-        },
+const users = await User.find({
+  $or: [
+    {
+      firstName: {
+        ["$regex"]: filter,
+        ["$options"]: "i",
       },
-      {
-        lastName: {
-          ["$regex"]: filter,
-          ["$options"]: "i",
-        },
+    },
+    {
+      lastName: {
+        ["$regex"]: filter,
+        ["$options"]: "i",
       },
-    ],
-  });
+    },
+  ],
+});
 
   res.json({
     user: users.map((user) => ({
